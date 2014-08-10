@@ -3,7 +3,7 @@ Create Symlinks Script
 
 Скрипт для создания симлинков, например, для директорий "Мои документы" и "Рабочий стол" в **Google Drive** (таким образом доступ к ним будет возможен с любых залогиненых устройств).
 
-![screenshot](http://habrastorage.org/files/677/7d8/579/6777d85790554fc6a143605058b53773.png)
+![screenshot](http://habrastorage.org/files/5c0/f48/bd2/5c0f48bd24b6418d919385bdc2145001.png)
 
 Как?
 ----
