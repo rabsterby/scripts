@@ -6,14 +6,26 @@
 ## @project   RSS torrent downloader for Transmission-daemon
 ## @copyright 2014 <samoylovnn@gmail.com>
 ## @github    https://github.com/tarampampam/scripts/nix/
-## @version   0.1.3
+## @version   0.1.4
 ##
 ## @depends   python, Transmission-daemon, python libs (feedparser, difflib,  
 ##              urllib, urllib2, transmissionrpc, datetime, time, os, sys)
 
+## Installation details on "WD My Book Live":
+## # Install ipkg
+## > wget http://mybookworld.wikidot.com/local--files/optware/setup-mybooklive.sh && sh setup-mybooklive.sh && rm -f setup-mybooklive.sh
+## # Install python26 and easy_install
+## > ipkg update && ipkg install python26 py26-setuptools
+## # Install packages
+## > mkdir -p /tmp2 && TEMP=/tmp2 easy_install feedparser transmissionrpc && rm -Rf /tmp2
+## # Run it:
+## > /opt/bin/python2.6 ./get_torrents_by_rss.py
+
+
+
 # User details
 # Add the url to your feed
-feed_url = "http://torrentrss.net/getrss.php?rsslink=ZK2cMM"
+feed_url = "http://torrentrss.net/getrss.php?rsslink=XXXXXXX"
 # Download torrents from feed to this folder
 down_path = "/shares/Public/Films/New/"
 # Important - path to DIFF files (path must be writeable)
@@ -151,10 +163,10 @@ for line in iter(f):
       time.sleep(5)
 
       evntlog.write(now + " : Added torrent (" + line.strip() + ")\r\n")
-   except transmissionrpc.TransmissionError as error:
-      print "   [Error] " + error.message + "\n"
+   except:
+      print "   [Error] Adding torrent error\n"
       now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-      evntlog.write(now + " : " + error.message + " (" + line.strip() + ")\r\n")
+      evntlog.write(now + " : Adding torrent error (" + line.strip() + ")\r\n")
       pass
 f.close()
 
