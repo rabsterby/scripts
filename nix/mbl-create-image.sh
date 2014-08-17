@@ -4,7 +4,7 @@
 ## @project   Make Wd My Book Live Disk Image Copy
 ## @copyright 2014 <samoylovnn@gmail.com>
 ## @github    https://github.com/tarampampam/scripts/nix/
-## @version   0.1.1
+## @version   0.1.2
 ##
 ## @depends   dd, sfdisk, tar, ls, cut, find
 
@@ -92,25 +92,22 @@ if [ ! -d $ImagePath ]; then
 
   logmessage -n "Move images to archive.. ";
   OutFile=$Path/image-$Date.tar.bz2;
-  tar -cpPjf $OutFile $ImagePath; rm -Rf $ImagePath;
+  tar -cpPjf $OutFile -C $ImagePath .; rm -Rf $ImagePath;
   if [ -f $OutFile ]; then
     echo -e "${cGreen}$(getFileSizeInMiB $OutFile)MiB, Ok${cNone}";
   else
     echo -e "${cRed}Error${cNone}";
   fi
 
+  logmessage "Search for old images in '$ImagePath' (older then $backupsLifeDays day(s))"
+  find $ImagePath -type f -mtime +$backupsLifeDays -exec rm '{}' \;
+  for FILE in $(find $ImagePath -mtime +$backupsLifeDays -type f); do
+    logmessage "Delete '$FILE' as old"
+    rm -f $FILE
+  done
+
   logmessage "Work complete";
 else
   logmessage "Something is wrong - path already exists. Exit";
   exit 1;
 fi
-
-## Finish work ################################################################
-
-logmessage "Search for old backups in '$ImagePath' (older then $backupsLifeDays day(s))"
-find $ImagePath -type f -mtime +$backupsLifeDays -exec rm '{}' \;
-for FILE in $(find $ImagePath -mtime +$backupsLifeDays -type f);
-do
-  logmessage "Delete '$FILE' as old"
-  rm -f $FILE
-done
