@@ -61,7 +61,8 @@ ImagePath=$Path/image-$DateTimeStamp.tmp;
 
 if [ ! -d $ImagePath ]; then
   ## Show some info
-  logmessage "${cYel}Note${cNone}: We need about 4.1GiB free space for a work";
+  logmessage "${cYel}Note${cNone}: We need about 4.6GiB free space for a \
+work. Result archive size ~540MiB, temp files will deleted";
   echo;
   
   ## Prepare path
