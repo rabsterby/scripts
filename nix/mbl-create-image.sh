@@ -4,7 +4,7 @@
 ## @project   Make Wd My Book Live Disk Image Copy
 ## @copyright 2014 <samoylovnn@gmail.com>
 ## @github    https://github.com/tarampampam/scripts/nix/
-## @version   0.1.2
+## @version   0.1.3
 ##
 ## @depends   dd, sfdisk, tar, ls, cut, find
 
@@ -12,9 +12,13 @@
 # ***                               Config                                   **
 # *****************************************************************************
 
+## Path - where we store images (without '/' at the end)
 Path="/DataVolume/shares/Kot/Backup/image";
-Date=$(date +%y-%m-%d--%H-%M);
-ImagePath=$Path/image-$Date;
+
+## Date format (used in file/dir name)
+Date=$(date +%Y-%m-%d_%H-%M);
+
+## How long store backups
 backupsLifeDays=128;
 
 # *****************************************************************************
@@ -46,6 +50,8 @@ getFileSizeInMiB() {
 }
 
 ## Begin work #################################################################
+
+ImagePath=$Path/image-$Date.tmp;
 
 if [ ! -d $ImagePath ]; then
   logmessage "${cYel}Note${cNone}: We need about ~4.1GiB free space for a work";
@@ -81,7 +87,7 @@ if [ ! -d $ImagePath ]; then
 
   logmessage -n "Getting partitions table info for /dev/sda.. ";
   OutFile=$ImagePath/sda_ptable;
-  sfdisk -d /dev/sda > $OutFile 2>&1
+  sfdisk -d /dev/sda > $OutFile 2>/dev/null
   if [ -f $OutFile ]; then
     echo -e "${cGreen}Ok${cNone}";
   else
@@ -91,7 +97,7 @@ if [ ! -d $ImagePath ]; then
   echo "Backup based on this post: http://mybookworld.wikidot.com/backup-images-of-mybook" > $ImagePath/readme.nfo
 
   logmessage -n "Move images to archive.. ";
-  OutFile=$Path/image-$Date.tar.bz2;
+  OutFile=$Path/mbl-image-$Date.tar.bz2;
   tar -cpPjf $OutFile -C $ImagePath .; rm -Rf $ImagePath;
   if [ -f $OutFile ]; then
     echo -e "${cGreen}$(getFileSizeInMiB $OutFile)MiB, Ok${cNone}";
