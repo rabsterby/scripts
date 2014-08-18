@@ -49,7 +49,7 @@ getFileSizeInMiB() {
 
 checkResultFile() {
   if [ ! -z $1 ] && [ -f $1 ]; then
-    echo -e "${rOk}, ($(getFileSizeInMiB $1) MiB)";
+    echo -e "${rOk} ($(getFileSizeInMiB $1) MiB)";
   else
     echo -e "${rErr}";
   fi
