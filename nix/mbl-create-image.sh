@@ -4,9 +4,9 @@
 ## @project   Make Wd My Book Live Disk Image Copy
 ## @copyright 2014 <samoylovnn@gmail.com>
 ## @github    https://github.com/tarampampam/scripts/nix/
-## @version   0.1.3
+## @version   0.1.4
 ##
-## @depends   dd, sfdisk, tar, ls, cut, find
+## @depends   dd, tar, ls, cut, find
 
 # *****************************************************************************
 # ***                               Config                                   **
@@ -15,11 +15,11 @@
 ## Path - where we store images (without '/' at the end)
 Path="/DataVolume/shares/Kot/Backup/image";
 
-## Date format (used in file/dir name)
-Date=$(date +%Y-%m-%d_%H-%M);
+## Date+Time stamp format (used in file/dir name)
+DateTimeStamp=$(date +%Y-%m-%d_%H-%M);
 
 ## How long store backups
-backupsLifeDays=128;
+SaveImagesDaysCount=128;
 
 # *****************************************************************************
 # ***                            END Config                                  **
@@ -29,87 +29,70 @@ backupsLifeDays=128;
 export LC_ALL=C;
 
 cRed='\e[1;31m'; cGreen='\e[0;32m'; cNone='\e[0m'; cYel='\e[1;33m';
+rOk="${cGreen}Ok${cNone}"; rErr="${cRed}Error${cNone}";
 
 logmessage() {
   ## $1 = (not required) '-n' flag for echo output
   ## $2 = message to output
 
-  flag=''; outtext='';
-  if [ "$1" == "-n" ]; then
-    flag="-n "; outtext=$2;
-  else
-    outtext=$1;
-  fi
-
+  local flag=''; outtext='';
+  if [ "$1" == "-n" ]; then flag="-n "; outtext=$2; else outtext=$1; fi
   echo -e $flag[$(date +%H:%M:%S)] "$outtext";
 }
 
 getFileSizeInMiB() {
-    ## $1 = (required) File path + name
-    if [ -f $1 ]; then echo $(($(ls -l "$1" | cut -f 5 -d " ")/1024/1024)); else echo 0; fi
+  ## $1 = (required) File path + name
+  if [ -f $1 ]; then
+    echo $(($(ls -l "$1" | cut -f 5 -d " ")/1024/1024)); else echo 0;
+  fi
+}
+
+checkResultFile() {
+  if [ ! -z $1 ] && [ -f $1 ]; then
+    echo -e "${rOk}, ($(getFileSizeInMiB $1) MiB)";
+  else
+    echo -e "${rErr}";
+  fi
 }
 
 ## Begin work #################################################################
 
-ImagePath=$Path/image-$Date.tmp;
+ImagePath=$Path/image-$DateTimeStamp.tmp;
 
 if [ ! -d $ImagePath ]; then
-  logmessage "${cYel}Note${cNone}: We need about ~4.1GiB free space for a work";
-  logmessage -n "Create $ImagePath.. ";
-  mkdir -p $ImagePath; echo -e "${cGreen}Ok${cNone}";
+  ## Show some info
+  logmessage "${cYel}Note${cNone}: We need about 4.1GiB free space for a work";
+  echo;
+  
+  ## Prepare path
+  logmessage -n "Create $ImagePath.. "; mkdir -p $ImagePath; echo -e "${rOk}";
 
-  logmessage -n "Copy MBR and Free space at beginning on the drive.. ";
-  OutFile=$ImagePath/sda_mbr_freespace;
-  dd if=/dev/sda of=$OutFile bs=15728640 count=1 > /dev/null 2>&1
-  if [ -f $OutFile ]; then
-    echo -e "$(getFileSizeInMiB $OutFile)MiB, ${cGreen}Ok${cNone}";
-  else
-    echo -e "${cRed}Error${cNone}";
-  fi
+  ## Begin create images files
+  logmessage -n "Copy MBR and Free space.. "; OF=$ImagePath/sda_mbr_freespace;
+  dd if=/dev/sda of=$OF bs=15728640 count=1 > /dev/null 2>&1;
+  checkResultFile $OF;
 
-  logmessage -n "Copy /dev/sda1.. ";
-  OutFile=$ImagePath/sda1_image;
-  dd if=/dev/sda1 of=$ImagePath/sda1_image > /dev/null 2>&1
-  if [ -f $OutFile ]; then
-    echo -e "$(getFileSizeInMiB $OutFile)MiB, ${cGreen}Ok${cNone}";
-  else
-    echo -e "${cRed}Error${cNone}";
-  fi
+  logmessage -n "Copy /dev/sda1.. "; OF=$ImagePath/sda1_image;
+  dd if=/dev/sda1 of=$OF > /dev/null 2>&1;
+  checkResultFile $OF;
 
-  logmessage -n "Copy /dev/sda2.. ";
-  OutFile=$ImagePath/sda2_image;
-  dd if=/dev/sda2 of=$ImagePath/sda2_image > /dev/null 2>&1
-  if [ -f $OutFile ]; then
-    echo -e "$(getFileSizeInMiB $OutFile)MiB, ${cGreen}Ok${cNone}";
-  else
-    echo -e "${cRed}Error${cNone}";
-  fi
+  logmessage -n "Copy /dev/sda2.. "; OF=$ImagePath/sda2_image;
+  dd if=/dev/sda2 of=$OF > /dev/null 2>&1;
+  checkResultFile $OF;
 
-  logmessage -n "Getting partitions table info for /dev/sda.. ";
-  OutFile=$ImagePath/sda_ptable;
-  sfdisk -d /dev/sda > $OutFile 2>/dev/null
-  if [ -f $OutFile ]; then
-    echo -e "${cGreen}Ok${cNone}";
-  else
-    echo -e "${cRed}Error${cNone}";
-  fi
+  ## Add some info
+  echo "Restore and backup info: http://goo.gl/xCWUhJ" > $ImagePath/readme.nfo;
 
-  echo "Backup based on this post: http://mybookworld.wikidot.com/backup-images-of-mybook" > $ImagePath/readme.nfo
+  ## Pack directory with images files to single archive + make clear
+  logmessage -n "Move to archive.. "; OF=$Path/image-$DateTimeStamp.tar.bz2;
+  tar -cpPjf $OF -C $ImagePath .; rm -Rf $ImagePath; checkResultFile $OF;
 
-  logmessage -n "Move images to archive.. ";
-  OutFile=$Path/mbl-image-$Date.tar.bz2;
-  tar -cpPjf $OutFile -C $ImagePath .; rm -Rf $ImagePath;
-  if [ -f $OutFile ]; then
-    echo -e "${cGreen}$(getFileSizeInMiB $OutFile)MiB, Ok${cNone}";
-  else
-    echo -e "${cRed}Error${cNone}";
-  fi
-
-  logmessage "Search for old images in '$ImagePath' (older then $backupsLifeDays day(s))"
-  find $ImagePath -type f -mtime +$backupsLifeDays -exec rm '{}' \;
-  for FILE in $(find $ImagePath -mtime +$backupsLifeDays -type f); do
-    logmessage "Delete '$FILE' as old"
-    rm -f $FILE
+  ## Delete old backups (older then $SaveImagesDaysCount)
+  logmessage "Search for old images in '$Path' (older then $SaveImagesDaysCount day(s))";
+  find $Path -type f -mtime +$SaveImagesDaysCount -exec rm '{}' \;
+  for FILE in $(find $Path -mtime +$SaveImagesDaysCount -type f); do
+    logmessage "Delete '$FILE' as ${cYel}old${cNone}";
+    rm -f $FILE > /dev/null 2>&1;
   done
 
   logmessage "Work complete";
