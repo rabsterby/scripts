@@ -3,7 +3,7 @@
 ## @author    Samoylov Nikolay
 ## @project   Remove most trash and some OSx .hidden cache files from folders
 ##              (recrussive)
-## @copyright 2014 <samoylovnn@gmail.com>
+## @copyright 2014 < samoylovnn {d0g} gmail {d0t} com >
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.2
 ##
