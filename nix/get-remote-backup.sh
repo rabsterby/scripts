@@ -2,7 +2,7 @@
 
 ## @author    Samoylov Nikolay
 ## @project   Get backup file via HTTP with auth
-## @copyright 2014 <https://github.com/tarampampam>
+## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.4
 ##
