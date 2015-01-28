@@ -2,7 +2,7 @@
 
 ## @author    Samoylov Nikolay
 ## @project   Send notification from linux shell (using 'curl' and Gmail account)
-## @copyright 2014 < samoylovnn {d0g} gmail {d0t} com >
+## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.3
 ##
