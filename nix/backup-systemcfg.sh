@@ -2,7 +2,7 @@
 
 ## @author    Samoylov Nikolay
 ## @project   Backup system config files
-## @copyright 2015 < samoylovnn {d0g} gmail {d0t} com >
+## @copyright 2015 <github.com/tarampampam>
 ## @github
 ## @version   0.0.1
 ##
