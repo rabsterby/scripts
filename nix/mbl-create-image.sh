@@ -2,7 +2,7 @@
 
 ## @author    Samoylov Nikolay
 ## @project   Make Wd My Book Live Disk Image Copy
-## @copyright 2014 <https://github.com/tarampampam>
+## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.4
 ##
