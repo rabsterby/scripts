@@ -1,5 +1,5 @@
 @echo off
-rem Script created by Samoylov Nikolay <https://github.com/tarampampam> # 2014
+rem Script created by Samoylov Nikolay <github.com/tarampampam> # 2014
 rem Version 0.1.7.3
 
 rem Setting variables (NO '"' and NO '\' at the end!)
