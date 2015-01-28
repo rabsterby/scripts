@@ -4,7 +4,7 @@
 ## @based on  https://github.com/soddengecko/tranmission_rss.py
 ##              <https://github.com/soddengecko>
 ## @project   RSS torrent downloader for Transmission-daemon
-## @copyright 2014 < samoylovnn {d0g} gmail {d0t} com >
+## @copyright 2014 < https://github.com/tarampampam >
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.4
 ##
