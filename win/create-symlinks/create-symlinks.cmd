@@ -1,5 +1,5 @@
 @echo off
-rem Script created by Samoylov Nikolay < samoylovnn {d0g} gmail {d0t} com > # 2014
+rem Script created by Samoylov Nikolay <github.com/tarampampam> # 2014
 
 rem Prerare destination variables
 
