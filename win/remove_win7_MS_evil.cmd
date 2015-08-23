@@ -25,8 +25,7 @@ echo.
 call:log "Find and add evil MS servers to HOSTS file.."
 call:log "--------------------------------------------"
 call:add_to_hosts "vortex-win.data.microsoft.com"
-call:add_to_hosts "11vortex-win.data.microsoft.com"
-call:add_to_hosts "22vortex-win.data.microsoft.com"
+call:add_to_hosts "settings-win.data.microsoft.com"
 
 goto:end
 
