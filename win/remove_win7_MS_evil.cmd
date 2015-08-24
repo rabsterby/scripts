@@ -5,10 +5,11 @@ rem Version 0.0.2
 echo.
 
 call:log "Remove evil M$ updates + block some M$ domains script"
-goto:checkPermissions
-:begin
 
 echo.
+
+goto:checkPermissions
+:begin
 
 call:log "Uninstall evil MS updates.."
 call:log "---------------------------"
