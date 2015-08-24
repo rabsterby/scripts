@@ -5,6 +5,8 @@ rem Version 0.0.2
 echo.
 
 call:log "Remove evil M$ updates + block some M$ domains script"
+goto:checkPermissions
+:begin
 
 echo.
 
@@ -19,18 +21,31 @@ call:uninstall_update "3068708"
 call:uninstall_update "3022345"
 call:uninstall_update "3021917"
 call:uninstall_update "2876229"
+call:uninstall_update "2976978"
 
 echo.
 
 call:log "Find and add evil MS servers to HOSTS file.."
 call:log "--------------------------------------------"
 call:add_to_hosts "vortex-win.data.microsoft.com"
+call:add_to_hosts "vortex.data.microsoft.com"
 call:add_to_hosts "settings-win.data.microsoft.com"
+call:add_to_hosts "settings.data.microsoft.com"
 
 goto:end
 
 :log
   echo [%time%] %~1
+  exit /b
+
+:checkPermissions
+  net session >nul 2>&1
+  if %errorLevel%==0 (
+      goto:begin
+  ) else (
+      call:log "[Failure] Need administrative permissions"
+      goto:end
+  )
   exit /b
 
 :uninstall_update
