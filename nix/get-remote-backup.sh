@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Get backup file via HTTP with auth
 ## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
@@ -118,7 +118,7 @@ attemptCounter=0;
 ## Begin download attempts loop
 while [ ! "$attemptCounter" -ge "$MaxAttemptsCount" ]; do
     logmessage "Download attempt ${cYel}$((attemptCounter+1))${cNone} of $MaxAttemptsCount"
-    
+
     ## Make download
     logmessage -n "Downloading backup from $backupFileUrl.."
     download $backupFileUrl
@@ -153,11 +153,11 @@ done;
 
 if [ ! -f $backupsDir/$backupFileName ]; then
     logmessage "${cRed}Fatal error, backup file not downloaded, exit${cNone}";
-    
+
     #######################################################
     ### WRITE CODE FOR SEND NOTIFICATION FOR ADMIN HERE ###
     #######################################################
-    
+
     echo -ne ${cNone}; exit 1;
 fi
 
@@ -172,4 +172,4 @@ do
   rm -f $FILE
 done
 
-echo -ne ${cNone}; 
+echo -ne ${cNone};
