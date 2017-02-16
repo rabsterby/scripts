@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Remove most trash and some OSx .hidden cache files from folders
 ##              (recrussive)
 ## @copyright 2014 <github.com/tarampampam>

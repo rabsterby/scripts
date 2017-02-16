@@ -1,5 +1,5 @@
 #!/bin/bash
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Nic.ru backup script
 ## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/nic.ru-bascup-script/

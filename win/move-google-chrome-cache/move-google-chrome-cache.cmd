@@ -1,5 +1,5 @@
 @echo off
-rem Script created by Samoylov Nikolay <github.com/tarampampam> # 2014
+rem Script created by <github.com/tarampampam> # 2014
 rem Version 0.1.7.3
 
 rem Setting variables (NO '"' and NO '\' at the end!)
@@ -73,16 +73,16 @@ if errorlevel 1 (
     rem Check path with cache is exists
     if exist "%GoogleChromeCachePath%\%UserDataDir%" (
       setlocal EnableDelayedExpansion
-      
+
       echo Script log:
-      
+
       rem Safe check for important variables
       if "%MoveToThisPath%" == "" call:log "Some wrong ('MoveToThisPath' is empty)" && goto:end
       if "%GoogleChromeCachePath%" == "" call:log "Some wrong ('GoogleChromeCachePath' is empty)" && goto:end
       if "%UserDataDir%" == "" call:log "Some wrong ('UserDataDir' is empty)" && goto:end
       if "%FlagFileName%" == "" call:log "Some wrong ('FlagFileName' is empty)" && goto:end
       if "%UserDataTempName%" == "" call:log "Some wrong ('UserDataTempName' is empty)" && goto:end
-      
+
       tasklist /fi "imagename eq chrome.exe" |find ":" > nul
       if errorlevel 1 (
         set StartGoogleChrome=yes
@@ -91,7 +91,7 @@ if errorlevel 1 (
       ) else (
         set StartGoogleChrome=no
       )
-    
+
       if not exist "%MoveToThisPath%" (
         set CreateSymlinkOnly=no
         call:log "Create '%MoveToThisPath%'"
@@ -99,30 +99,30 @@ if errorlevel 1 (
       ) else (
         set CreateSymlinkOnly=yes
       )
-    
+
       call:log "Rename cache dir to '%UserDataTempName%'"
       rename "%GoogleChromeCachePath%\%UserDataDir%" "%UserDataTempName%"
 
       call:log "Create symlink"
       mklink /D "%GoogleChromeCachePath%\%UserDataDir%" "%MoveToThisPath%" > nul
-    
+
       if "!CreateSymlinkOnly!"=="no" (
         call:log "Moving cache files to '%MoveToThisPath%', please wait"
         xcopy /E /H /Q /Y "%GoogleChromeCachePath%\%UserDataTempName%" "%MoveToThisPath%" 2>&1> NUL || call:log "Moving files complete with some errors"
       )
-      
+
       call:log "Delete old cache ('%UserDataTempName%')"
       del /f /s /q "%GoogleChromeCachePath%\%UserDataTempName%" 2>&1> NUL
       rmdir /s /q "%GoogleChromeCachePath%\%UserDataTempName%" 2>&1> NUL
-      
+
       call:log "Create 'Flag' file with timestamp"
       echo Moved timestamp : %date% %time% > "%GoogleChromeCachePath%\%FlagFileName%"
-      
+
       if "!StartGoogleChrome!"=="yes" (
         call:log "Starting 'Google Chrome'"
         start chrome
       )
-      
+
       endlocal
     ) else (
       call:log "Dir '%UserDataDir%' in profile directory NOT found"
@@ -148,15 +148,15 @@ goto:end
       goto:end
   )
   exit /b
-  
+
 :getPathFromUser
   echo Please type valid path (without '\' at the end) for moving cache
-  echo   (ex.: D:\Temp\ChromeCache), or press [Ctrl]+[C]: 
+  echo   (ex.: D:\Temp\ChromeCache), or press [Ctrl]+[C]:
   set /p MoveToThisPath=
   if not exist "%MoveToThisPath:~0,3%" goto:getPathFromUser
   goto:pressedYes
   exit /b
-  
+
 :end
   echo. && echo Exit after 15 seconds && timeout /t 15 > nul
   echo on

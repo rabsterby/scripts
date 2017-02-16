@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Get torrent RSS feed, extract links and pass to Transmission
 ##            torrent client
 ## @copyright 2015 <github.com/tarampampam>

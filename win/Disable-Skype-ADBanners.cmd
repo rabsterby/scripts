@@ -1,5 +1,5 @@
 @echo off
-rem Script created by Samoylov Nikolay <github.com/tarampampam> # 2015
+rem Script created by <github.com/tarampampam> # 2015
 rem Version 0.1.0
 set BLOCK_SITE_REDIRECT=127.0.0.1
 set HOSTS_FILE="%SystemRoot%\system32\drivers\etc\hosts"
@@ -43,7 +43,7 @@ goto:end
       goto:end
   )
   exit /b
-  
+
 :end
   echo. && echo Exit after 5 seconds && timeout /t 5 > nul
   echo on

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## @author      Samoylov Nikolay
+## @author      github.com/tarampampam
 ## @project     Remove downloaded torrents in Transmission torrent client
 ## @copyright   2014 <github.com/tarampampam>
 ## @github      https://github.com/tarampampam/scripts/nix/

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Make Wd My Book Live Disk Image Copy
 ## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
@@ -64,7 +64,7 @@ if [ ! -d $ImagePath ]; then
   logmessage "${cYel}Note${cNone}: We need about 4.6GiB free space for a \
 work. Result archive size ~540MiB, temp files will be deleted";
   echo;
-  
+
   ## Prepare path
   logmessage -n "Create $ImagePath.. "; mkdir -p $ImagePath; echo -e "${rOk}";
 

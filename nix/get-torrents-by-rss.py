@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-## @editby    Samoylov Nikolay
+## @editby    github.com/tarampampam
 ## @based on  https://github.com/soddengecko/tranmission_rss.py
 ##              <https://github.com/soddengecko>
 ## @project   RSS torrent downloader for Transmission-daemon
@@ -8,7 +8,7 @@
 ## @github    https://github.com/tarampampam/scripts/nix/
 ## @version   0.1.4
 ##
-## @depends   python, Transmission-daemon, python libs (feedparser, difflib,  
+## @depends   python, Transmission-daemon, python libs (feedparser, difflib,
 ##              urllib, urllib2, transmissionrpc, datetime, time, os, sys)
 
 ## Installation details on "WD My Book Live":
@@ -112,7 +112,7 @@ print "[i] Parse the feed url.."
 
 # Parse the feed url given in the user details section.
 feed = feedparser.parse(feed_url)
-# Strip all the unnecessary data and grab the links 
+# Strip all the unnecessary data and grab the links
 with open(inc, 'w+') as incoming_file:
 	for post in feed.entries:
 		incoming_file.write(post.link + "\n")
@@ -124,16 +124,16 @@ with open(inc, 'w+') as incoming_file:
 print "[i] Check the incoming file against the history.."
 
 # Check the incoming file against the history file. If there is a differece,
-#   write it to the diff file. 
+#   write it to the diff file.
 def build_set(inc):
-    # A set stores a collection of unique items.  Both adding items and 
+    # A set stores a collection of unique items.  Both adding items and
     #   searching for them are quick, so it's perfect for this application.
     found = set()
 
     with open(inc) as incoming:
         for line in incoming:
             # [:2] gives us the first two elements of the list.
-            # Tuples, unlike lists, cannot be changed, which is a requirement 
+            # Tuples, unlike lists, cannot be changed, which is a requirement
             #   for anything being stored in a set.
             found.add(tuple(sorted(line.split()[:2])))
 
@@ -143,12 +143,12 @@ set_more = build_set(inc)
 set_del = build_set(hist)
 
 with open(diff, 'w+') as difference:
-   # Using with to open files ensures that they are properly closed, even if 
+   # Using with to open files ensures that they are properly closed, even if
    #   the code raises an exception.
 
    for res in (set_more - set_del):
       # The - computes the elements in set_more not in set_del.
-      difference.write(" ".join(res) + "\n") 
+      difference.write(" ".join(res) + "\n")
 
 
 # Open the diff file and add the contents (links) to transmission
@@ -184,7 +184,7 @@ hist_file.close()
 
 print "[i] Finishing.."
 
-# Now we have finished with the diff and inc files, we open them, write in 
+# Now we have finished with the diff and inc files, we open them, write in
 #   nothing and resave the file
 open(diff, 'w').close()
 open(inc, 'w').close()

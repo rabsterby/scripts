@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Backup system config files
 ## @copyright 2015 <github.com/tarampampam>
 ## @github

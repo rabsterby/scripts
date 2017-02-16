@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## @author    Samoylov Nikolay
+## @author    github.com/tarampampam
 ## @project   Send notification from linux shell (using 'curl' and Gmail account)
 ## @copyright 2014 <github.com/tarampampam>
 ## @github    https://github.com/tarampampam/scripts/nix/
@@ -21,7 +21,7 @@ gmailUser="yourmail@gmail.com";
 ##   https://security.google.com/settings/security/apppasswords)
 gmailPassword="xxxx xxxx xxxx xxxx";
 
-## Email address - who receive notification (set '$gmailUser' for sending to 
+## Email address - who receive notification (set '$gmailUser' for sending to
 ##   yourself)
 notificationMailTo='yourmail-for-notifications@mail.ru';
 
@@ -153,7 +153,7 @@ fi
 createMailBody() {
   setMailTo=$1; setMailFrom=$2; setMailBody=$3;
   fileName=$tempFolder/notification-mail$(((RANDOM%10000)+100000));
-  
+
   cat > $fileName <<ENDOFMAILBODY
 From: $setMailFrom
 To: $setMailTo
@@ -175,11 +175,11 @@ curlResult=$(curl -A "Mozilla/5.0 (X11; Linux i686; rv:2.0.1) Gecko/20110529 Fir
   --verbose --upload-file $mailFileName 2>&1); rm -f $mailFileName;
 
 #echo "$curlResult";  --insecure
-  
+
 if [[ $curlResult == *Authentication\ failed* ]]; then
   echo -e "${cRed}Error${cNone} (${cRed}Authentication failed${cNone})"; exit 1;
 fi
-  
+
 if [[ $curlResult == *Couldn\'t\ resolve* ]]; then
   echo -e "${cRed}Error${cNone} (${cRed}Couldn't resolve host${cNone})"; exit 1;
 fi
